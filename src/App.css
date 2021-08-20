@@ -1,18 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,6 +9,38 @@
   color: white;
 }
 
+.dataOfMessage {
+  color: grey;
+  font-size: 10px;
+}
+.containerIconMessage {
+  margin-left: 20px;
+  padding-top: 5px;
+  margin-top: 50px;
+  width: 35px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.877);
+}
+.iconMessage {
+  width: 30px;
+  height: 30px;
+}
+.message {
+  height: 200px;
+  width: 600px;
+  background-color: rgb(179, 179, 179);
+}
+.containerText {
+  padding-left: 70px;
+  padding-top: 10px;
+}
+.message > div {
+  float: left;
+}
+.selectedCategorie {
+  margin-left: 80%;
+}
 .App-link {
   color: #61dafb;
 }
@@ -35,4 +52,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.container > div {
+  float: left;
 }
