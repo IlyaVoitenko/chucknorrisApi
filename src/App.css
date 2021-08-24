@@ -28,12 +28,11 @@
 }
 .message {
   height: 200px;
-  width: 600px;
+  width: 650px;
   background-color: rgb(179, 179, 179);
 }
 .containerText {
   padding-left: 70px;
-  padding-top: 10px;
 }
 .message > div {
   float: left;

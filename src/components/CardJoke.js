@@ -1,7 +1,7 @@
 import React from "react";
 
-const Message = (props) => {
-  const { id, value, updated_at } = props.list;
+const CardJoke = ({ joke }) => {
+  const { id, value, updated_at } = joke;
   return (
     <div className="message">
       <div>
@@ -22,4 +22,4 @@ const Message = (props) => {
     </div>
   );
 };
-export default Message;
+export default CardJoke;

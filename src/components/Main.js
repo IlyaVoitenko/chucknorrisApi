@@ -1,9 +1,9 @@
 import React from "react";
-import List from "./List";
+import SelectCategories from "./SelectCategories";
 const Main = () => {
   return (
     <div className="container">
-      <List></List>
+      <SelectCategories></SelectCategories>
     </div>
   );
 };
