@@ -2,6 +2,7 @@ import React from "react";
 
 const CardJoke = ({ joke }) => {
   const { id, value, updated_at } = joke;
+  console.log(joke);
   return (
     <div className="message">
       <div>

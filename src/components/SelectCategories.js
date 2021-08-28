@@ -1,16 +1,30 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import CardJoke from "./CardJoke";
 const RANDOM = "random";
 const RANDOM_BY_CATEGORIE = "randombycategorie";
-
+const SEARCH_JOKES = "search";
 const SelectCategories = ({
   initialState = {
     randomJoke: {},
     categories: [],
     jokeByCategorie: {},
+    searchJokes: [],
     typeOfJoke: RANDOM,
   },
 }) => {
+  function searchJokes({ target }) {
+    fetch(`https://api.chucknorris.io/jokes/search?query=${target.value}`)
+      .then((data) => data.json())
+      .then((searchJoke) => {
+        return dispatch({
+          payload: searchJoke.result,
+          type: "setSearchJoke",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   function selectedOption({ target }) {
     fetch(`https://api.chucknorris.io/jokes/random?category=${target.value}`)
       .then((data) => data.json())
@@ -31,14 +45,14 @@ const SelectCategories = ({
         });
       });
   }
-  useEffect(() => {
+  function randomJoke() {
     fetch("https://api.chucknorris.io/jokes/random")
       .then((data) => data.json())
       .then((data) => {
         dispatch({ payload: data, type: "setRandomJoke" });
         return;
       });
-  }, []);
+  }
   const reducerFunction = (state, action) => {
     switch (action.type) {
       case "setRandomJoke":
@@ -51,6 +65,12 @@ const SelectCategories = ({
           jokeByCategorie: action.payload,
           typeOfJoke: RANDOM_BY_CATEGORIE,
         };
+      case "setSearchJoke":
+        return {
+          ...state,
+          searchJokes: action.payload,
+          typeOfJoke: SEARCH_JOKES,
+        };
       default:
         throw "Bad action type";
     }
@@ -59,6 +79,8 @@ const SelectCategories = ({
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const currentJoke =
     state.typeOfJoke === RANDOM ? state.randomJoke : state.jokeByCategorie;
+  if (state.searchJokes !== undefined) {
+  }
   return (
     <div>
       <header>
@@ -70,6 +92,17 @@ const SelectCategories = ({
 
         <div>
           <form>
+            <label htmlFor="random">
+              <input
+                name="down"
+                type="radio"
+                value="random"
+                id="random"
+                onClick={randomJoke}
+              ></input>
+              random
+            </label>
+            <p></p>
             <label htmlFor="from categories">
               <input
                 name="down"
@@ -91,21 +124,34 @@ const SelectCategories = ({
               })}
             </select>
             <div>
+              <p></p>
+              <label htmlFor="search">
+                <input
+                  type="radio"
+                  value="search"
+                  id="search"
+                  name="down"
+                ></input>
+                Search
+              </label>
               <input
-                type="radio"
-                value="search"
-                id="search"
-                name="down"
+                type="text"
+                placeholder="Search a joke"
+                onChange={(event) => searchJokes(event)}
               ></input>
-              Search
             </div>
-            <button>Get a joke</button>
           </form>
         </div>
       </div>
       <p></p>
-      Random
-      <CardJoke joke={currentJoke}></CardJoke>
+      {state.typeOfJoke === SEARCH_JOKES && state.searchJokes !== undefined ? (
+        state.searchJokes.map((searchJoke) => {
+          console.log(searchJoke);
+          return <CardJoke joke={searchJoke}></CardJoke>;
+        })
+      ) : (
+        <CardJoke joke={currentJoke}></CardJoke>
+      )}
     </div>
   );
 };
