@@ -1,29 +1,33 @@
 import React, { useReducer } from "react";
+import "./css/SelectCategories.css";
+import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 const RANDOM = "random";
 const RANDOM_BY_CATEGORIE = "randombycategorie";
 const SEARCH_JOKES = "search";
-const SelectCategories = ({
-  initialState = {
-    randomJoke: {},
-    categories: [],
-    jokeByCategorie: {},
-    searchJokes: [],
-    typeOfJoke: RANDOM,
-  },
-}) => {
+const initialState = {
+  favoriteJokes: [],
+  randomJoke: {},
+  categories: [],
+  jokeByCategorie: {},
+  searchJokes: [],
+  typeOfJoke: RANDOM,
+};
+const SelectCategories = () => {
   function searchJokes({ target }) {
-    fetch(`https://api.chucknorris.io/jokes/search?query=${target.value}`)
-      .then((data) => data.json())
-      .then((searchJoke) => {
-        return dispatch({
-          payload: searchJoke.result,
-          type: "setSearchJoke",
+    if (!searchJokes.result && target.value.length > 2) {
+      fetch(`https://api.chucknorris.io/jokes/search?query=${target.value}`)
+        .then((data) => data.json())
+        .then((searchJoke) => {
+          return dispatch({
+            payload: searchJoke.result,
+            type: "setSearchJoke",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
   }
   function selectedOption({ target }) {
     fetch(`https://api.chucknorris.io/jokes/random?category=${target.value}`)
@@ -55,6 +59,19 @@ const SelectCategories = ({
   }
   const reducerFunction = (state, action) => {
     switch (action.type) {
+      case "deleteFavoriteJoke":
+        let newFavoriteJoke = state.favoriteJokes.filter(
+          (joke) => joke.id !== action.payload
+        );
+        return {
+          ...state,
+          favoriteJokes: newFavoriteJoke,
+        };
+      case "addFavoriteJoke":
+        return {
+          ...state,
+          favoriteJokes: [...state.favoriteJokes, { ...action.payload }],
+        };
       case "setRandomJoke":
         return { ...state, randomJoke: action.payload, typeOfJoke: RANDOM };
       case "setCategoriesOfJokes":
@@ -75,12 +92,9 @@ const SelectCategories = ({
         throw "Bad action type";
     }
   };
-
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const currentJoke =
     state.typeOfJoke === RANDOM ? state.randomJoke : state.jokeByCategorie;
-  if (state.searchJokes !== undefined) {
-  }
   return (
     <div>
       <header>
@@ -144,14 +158,18 @@ const SelectCategories = ({
         </div>
       </div>
       <p></p>
+
       {state.typeOfJoke === SEARCH_JOKES && state.searchJokes !== undefined ? (
         state.searchJokes.map((searchJoke) => {
-          console.log(searchJoke);
-          return <CardJoke joke={searchJoke}></CardJoke>;
+          return <CardJoke joke={searchJoke} dispatch={dispatch}></CardJoke>;
         })
       ) : (
-        <CardJoke joke={currentJoke}></CardJoke>
+        <CardJoke joke={currentJoke} dispatch={dispatch}></CardJoke>
       )}
+      <ListFavoriteJoke
+        favoritesJokes={state.favoriteJokes}
+        dispatch={dispatch}
+      />
     </div>
   );
 };

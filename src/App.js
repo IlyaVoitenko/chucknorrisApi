@@ -1,9 +1,9 @@
+import SelectCategories from "./components/SelectCategories";
 import "./App.css";
-import Main from "./components/Main";
 function App() {
   return (
     <div className="App">
-      <Main />
+      <SelectCategories />
     </div>
   );
 }

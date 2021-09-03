@@ -1,0 +1,66 @@
+.dataOfMessage {
+  color: grey;
+  font-size: 10px;
+}
+.containerIconMessage {
+  width: 34px;
+  height: 30px;
+  padding-top: 5px;
+  margin-top: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.904);
+}
+.container {
+  height: 100%;
+  width: 300px;
+  background-color: cadetblue;
+}
+.iconFavoriteJoke {
+  color: brown;
+  font-size: 25px;
+  border: none;
+  width: 40px;
+  height: 30px;
+  margin-left: 50%;
+}
+.btnFavoriteJoke {
+  background-color: rgba(226, 226, 226);
+  font-size: 25px;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 30px;
+  margin-left: 50%;
+}
+.btnFavoriteJoke:hover {
+  color: brown;
+}
+.Joke {
+  width: 570px;
+}
+.iconMessage {
+  margin-left: 1px;
+  width: 30px;
+  height: 30px;
+}
+.container > div {
+  float: left;
+}
+.iconDiv {
+  width: 60px;
+  height: 100%;
+}
+.message {
+  height: 200px;
+  width: 650px;
+  background-color: rgb(226, 226, 226);
+}
+.containerText {
+  padding-left: 70px;
+}
+.message > div {
+  float: left;
+}
+.selectedCategorie {
+  margin-left: 80%;
+}
