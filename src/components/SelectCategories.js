@@ -1,16 +1,19 @@
-import React from "react";
-import "./css/SelectCategories.css";
-import ListFavoriteJoke from "./ListFavoriteJoke";
-import CardJoke from "./CardJoke";
-import useJoke from "./useAppState";
+import React from 'react';
+import  styles from './css/SelectCategories.module.css';
+import ListFavoriteJoke from './ListFavoriteJoke';
+import CardJoke from './CardJoke';
+import useJoke from './useAppState';
+
+//TODO: use buttons got send requests for jokes
 const SelectCategories = () => {
+  // use Destructuring
   const jokeLogik = useJoke();
   return (
     <div>
       <header>
         <h3>MSI 2020</h3>
       </header>
-      <div className="main">
+      <div className={styles.main}>
         <h2>Hey!</h2>
         <h3>Let's try to find a joke for you:</h3>
 
@@ -20,10 +23,11 @@ const SelectCategories = () => {
               <input
                 name="down"
                 type="radio"
+                // remove values from radios
                 value="random"
                 id="random"
                 onClick={jokeLogik.randomJoke}
-              ></input>
+              />
               random
             </label>
             <p></p>
@@ -34,7 +38,7 @@ const SelectCategories = () => {
                 value="from categories"
                 id="from categories"
                 onClick={jokeLogik.fetchCategories}
-              ></input>
+              />
               From categories
             </label>
 
@@ -81,6 +85,7 @@ const SelectCategories = () => {
         })
       ) : (
         <CardJoke
+        
           joke={jokeLogik.currentJoke}
           dispatch={jokeLogik.dispatch}
         ></CardJoke>

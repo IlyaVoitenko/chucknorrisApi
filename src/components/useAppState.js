@@ -2,6 +2,8 @@ import { useReducer } from "react";
 const RANDOM = "random";
 const RANDOM_BY_CATEGORIE = "randombycategorie";
 const SEARCH_JOKES = "search";
+
+// try have only on jokes state
 const initialState = {
   favoriteJokes: [],
   randomJoke: {},
@@ -9,8 +11,11 @@ const initialState = {
   jokeByCategorie: {},
   searchJokes: [],
   typeOfJoke: RANDOM,
+  //jokes: []
 };
+
 const useJoke = () => {
+  //getJokesBySearch
   function searchJokes({ target }) {
     if (!searchJokes.result && target.value.length > 2) {
       fetch(`https://api.chucknorris.io/jokes/search?query=${target.value}`)
@@ -26,6 +31,8 @@ const useJoke = () => {
         });
     }
   }
+ //getJokes(queryString) {fetch(`baseUrl)}
+  //getJokesByCategories
   function selectedOption({ target }) {
     fetch(`https://api.chucknorris.io/jokes/random?category=${target.value}`)
       .then((data) => data.json())
@@ -36,6 +43,9 @@ const useJoke = () => {
         });
       });
   }
+
+  // do it in useEffect on start of app
+  // use baseUrl variable
   function fetchCategories() {
     fetch("https://api.chucknorris.io/jokes/categories")
       .then((dataOfCategories) => dataOfCategories.json())
@@ -46,6 +56,8 @@ const useJoke = () => {
         });
       });
   }
+
+  // getRandomJoke
   function randomJoke() {
     fetch("https://api.chucknorris.io/jokes/random")
       .then((data) => data.json())
@@ -54,6 +66,7 @@ const useJoke = () => {
         return;
       });
   }
+
   const reducerFunction = (state, action) => {
     switch (action.type) {
       case "deleteFavoriteJoke":
@@ -89,7 +102,9 @@ const useJoke = () => {
         throw "Bad action type";
     }
   };
+
   const [state, dispatch] = useReducer(reducerFunction, initialState);
+
   const currentJoke =
     state.typeOfJoke === RANDOM ? state.randomJoke : state.jokeByCategorie;
   return {
@@ -100,9 +115,11 @@ const useJoke = () => {
     selectedOption,
     searchJokes,
     currentJoke,
+    //move constants to separate
     SEARCH_JOKES,
     RANDOM,
     RANDOM_BY_CATEGORIE,
   };
 };
+
 export default useJoke;

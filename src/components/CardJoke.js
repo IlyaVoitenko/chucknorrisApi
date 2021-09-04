@@ -1,7 +1,11 @@
 import React from "react";
 import "./css/CardJoke.css";
+
+//TODO: add favorite state for cards in the main part(not aside)
 const CardJoke = ({ joke, dispatch }) => {
+
   const { id, value, updated_at } = joke;
+  //look for full link in th joke object
   let link = "https://api.chucknorris.io/jokes/";
   return (
     <div className="container">
@@ -18,6 +22,7 @@ const CardJoke = ({ joke, dispatch }) => {
         <div className="Joke">
           <div>
             <span>
+            {/* don't use + with string */}
               ID:<a href={link + id}>{id}</a>
             </span>
             <button

@@ -1,7 +1,10 @@
 import React from "react";
 import "./css/FavoriteJokes.css";
 
+//don't allow to add equal jokes to favorites list
+//Try to reuse CradJoke
 const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
+  //baseUrl here
   let link = "https://api.chucknorris.io/jokes/";
   return (
     <div className="containerFavoritesJokes">
@@ -35,6 +38,7 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
                     });
                   }}
                 >
+                  {/* move to variable */}
                   &#10084;
                 </span>
               </div>
