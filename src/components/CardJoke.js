@@ -2,6 +2,7 @@ import React from "react";
 import "./css/CardJoke.css";
 const CardJoke = ({ joke, dispatch }) => {
   const { id, value, updated_at } = joke;
+  let link = "https://api.chucknorris.io/jokes/";
   return (
     <div className="container">
       <div className="message">
@@ -16,7 +17,9 @@ const CardJoke = ({ joke, dispatch }) => {
         </div>
         <div className="Joke">
           <div>
-            <span>id:{id}</span>
+            <span>
+              ID:<a href={link + id}>{id}</a>
+            </span>
             <button
               className="btnFavoriteJoke"
               onClick={() => {

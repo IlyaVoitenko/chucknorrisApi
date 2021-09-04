@@ -1,0 +1,24 @@
+.containerFavoritesJokes {
+  position: fixed;
+  top: 0;
+  margin-left: 900px;
+  height: 100%;
+  width: 630px;
+  background-color: rgba(194, 194, 194, 0.966);
+}
+.linkID {
+  font-size: 10px;
+}
+.jokeValue {
+  width: 300px;
+  padding-left: 140px;
+}
+.lastUpdate {
+  color: grey;
+  font-size: 10px;
+  padding-left: 140px;
+}
+.FavoriteJokeContainer {
+  width: 300px;
+  background-color: hotpink;
+}

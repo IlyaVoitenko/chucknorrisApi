@@ -1,13 +1,14 @@
 import React from "react";
-import "./css/CardJoke.css";
+import "./css/FavoriteJokes.css";
 
 const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
+  let link = "https://api.chucknorris.io/jokes/";
   return (
-    <div className="container">
+    <div className="containerFavoritesJokes">
       <h3>Favorites</h3>
       {favoritesJokes.map((joke) => {
         return (
-          <div className="message" key={joke.id}>
+          <div className="FavoriteJokeContainer" key={joke.id}>
             <div className="iconDiv">
               <div className="containerIconMessage">
                 <img
@@ -19,7 +20,12 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
             </div>
             <div className="Joke">
               <div>
-                <span>id:{joke.id}</span>
+                <span>
+                  id:
+                  <a href={link + joke.id} className="linkID">
+                    {joke.id}
+                  </a>
+                </span>
                 <span
                   className="iconFavoriteJoke"
                   onClick={() => {
@@ -32,8 +38,8 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
                   &#10084;
                 </span>
               </div>
-              <p>{joke.value}</p>
-              <p className="dataOfMessage">last update: {joke.updated_at}</p>
+              <p className="jokeValue">{joke.value}</p>
+              <p className="lastUpdate">last update: {joke.updated_at}</p>
             </div>
           </div>
         );
