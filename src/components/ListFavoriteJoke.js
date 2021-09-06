@@ -1,33 +1,34 @@
 import React from "react";
-import "./css/FavoriteJokes.css";
-
+import style from "./css/FavoriteJokes.module.css";
 const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
-  let link = "https://api.chucknorris.io/jokes/";
+  let baseURL = "https://api.chucknorris.io/jokes/";
+  console.log("favoritesJokes ", favoritesJokes);
+
   return (
-    <div className="containerFavoritesJokes">
+    <div className={style.containerFavoritesJokes}>
       <h3>Favorites</h3>
       {favoritesJokes.map((joke) => {
         return (
-          <div className="FavoriteJokeContainer" key={joke.id}>
-            <div className="iconDiv">
-              <div className="containerIconMessage">
+          <div className={style.FavoriteJokeContainer} key={joke.id}>
+            <div className={style.iconDiv}>
+              <div className={style.containerIconMessage}>
                 <img
-                  className="iconMessage"
+                  className={style.iconMessage}
                   src="https://img.icons8.com/windows/50/000000/chat-message.png"
                   alt="icon"
                 />
               </div>
             </div>
-            <div className="Joke">
+            <div className={style.Joke}>
               <div>
                 <span>
                   id:
-                  <a href={link + joke.id} className="linkID">
+                  <a href={(baseURL, joke.id)} className="linkID">
                     {joke.id}
                   </a>
                 </span>
                 <span
-                  className="iconFavoriteJoke"
+                  className={style.iconFavoriteJoke}
                   onClick={() => {
                     dispatch({
                       type: "deleteFavoriteJoke",
@@ -38,8 +39,8 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
                   &#10084;
                 </span>
               </div>
-              <p className="jokeValue">{joke.value}</p>
-              <p className="lastUpdate">last update: {joke.updated_at}</p>
+              <p className={style.jokeValue}>{joke.value}</p>
+              <p className={style.lastUpdate}>last update: {joke.updated_at}</p>
             </div>
           </div>
         );

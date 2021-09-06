@@ -1,42 +1,36 @@
-import { useReducer } from "react";
-const RANDOM = "random";
-const RANDOM_BY_CATEGORIE = "randombycategorie";
-const SEARCH_JOKES = "search";
+import { useEffect, useReducer } from "react";
+import ConstsTypeJokes from "./useConstsTypeJokes";
+const Consts = ConstsTypeJokes();
+const baseURL = "https://api.chucknorris.io/jokes/";
 const initialState = {
   favoriteJokes: [],
   randomJoke: {},
   categories: [],
   jokeByCategorie: {},
   searchJokes: [],
-  typeOfJoke: RANDOM,
+  typeOfJoke: Consts.RANDOM,
+  jokes: [],
+  queryString: "",
 };
 const useJoke = () => {
-  function searchJokes({ target }) {
-    if (!searchJokes.result && target.value.length > 2) {
-      fetch(`https://api.chucknorris.io/jokes/search?query=${target.value}`)
-        .then((data) => data.json())
-        .then((searchJoke) => {
-          return dispatch({
-            payload: searchJoke.result,
-            type: "setSearchJoke",
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-  function selectedOption({ target }) {
-    fetch(`https://api.chucknorris.io/jokes/random?category=${target.value}`)
+  function getJokes(queryString, typeReducer, { target }) {
+    let query = "";
+    typeReducer !== "setRandomJoke" ? (query = target.value) : console.log();
+    fetch(baseURL + queryString + query)
       .then((data) => data.json())
-      .then((jokeByCategorie) => {
-        return dispatch({
-          payload: jokeByCategorie,
-          type: "setjokeByCategorie",
-        });
+      .then((joke) => {
+        typeReducer === "setSearchJoke"
+          ? dispatch({
+              payload: joke.result,
+              type: typeReducer,
+            })
+          : dispatch({
+              payload: joke,
+              type: typeReducer,
+            });
       });
   }
-  function fetchCategories() {
+  useEffect(() => {
     fetch("https://api.chucknorris.io/jokes/categories")
       .then((dataOfCategories) => dataOfCategories.json())
       .then((dataOfCategories) => {
@@ -45,15 +39,7 @@ const useJoke = () => {
           type: "setCategoriesOfJokes",
         });
       });
-  }
-  function randomJoke() {
-    fetch("https://api.chucknorris.io/jokes/random")
-      .then((data) => data.json())
-      .then((data) => {
-        dispatch({ payload: data, type: "setRandomJoke" });
-        return;
-      });
-  }
+  }, []);
   const reducerFunction = (state, action) => {
     switch (action.type) {
       case "deleteFavoriteJoke":
@@ -70,20 +56,24 @@ const useJoke = () => {
           favoriteJokes: [...state.favoriteJokes, { ...action.payload }],
         };
       case "setRandomJoke":
-        return { ...state, randomJoke: action.payload, typeOfJoke: RANDOM };
+        return {
+          ...state,
+          randomJoke: action.payload,
+          typeOfJoke: Consts.RANDOM,
+        };
       case "setCategoriesOfJokes":
         return { ...state, categories: action.payload };
       case "setjokeByCategorie":
         return {
           ...state,
           jokeByCategorie: action.payload,
-          typeOfJoke: RANDOM_BY_CATEGORIE,
+          typeOfJoke: Consts.RANDOM_BY_CATEGORIE,
         };
       case "setSearchJoke":
         return {
           ...state,
           searchJokes: action.payload,
-          typeOfJoke: SEARCH_JOKES,
+          typeOfJoke: Consts.SEARCH_JOKES,
         };
       default:
         throw "Bad action type";
@@ -91,18 +81,15 @@ const useJoke = () => {
   };
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const currentJoke =
-    state.typeOfJoke === RANDOM ? state.randomJoke : state.jokeByCategorie;
+    state.typeOfJoke === Consts.RANDOM
+      ? state.randomJoke
+      : state.jokeByCategorie;
+
   return {
     dispatch,
     state,
-    randomJoke,
-    fetchCategories,
-    selectedOption,
-    searchJokes,
     currentJoke,
-    SEARCH_JOKES,
-    RANDOM,
-    RANDOM_BY_CATEGORIE,
+    getJokes,
   };
 };
 export default useJoke;

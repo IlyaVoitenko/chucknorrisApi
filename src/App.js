@@ -1,9 +1,9 @@
-import SelectCategories from "./components/SelectCategories";
+import SelectTypeJokes from "./components/SelectTypeJokes";
 import "./App.css";
 function App() {
   return (
     <div className="App">
-      <SelectCategories />
+      <SelectTypeJokes />
     </div>
   );
 }

@@ -1,27 +1,27 @@
 import React from "react";
-import "./css/CardJoke.css";
+import style from "./css/CardJoke.module.css";
 const CardJoke = ({ joke, dispatch }) => {
   const { id, value, updated_at } = joke;
-  let link = "https://api.chucknorris.io/jokes/";
+  let baseURL = "https://api.chucknorris.io/jokes/";
   return (
-    <div className="container">
-      <div className="message">
-        <div className="iconDiv">
-          <div className="containerIconMessage">
+    <div className={style.container}>
+      <div className={style.message}>
+        <div className={style.iconDiv}>
+          <div className={style.containerIconMessage}>
             <img
-              className="iconMessage"
+              className={style.iconMessage}
               src="https://img.icons8.com/windows/50/000000/chat-message.png"
               alt="icon"
             />
           </div>
         </div>
-        <div className="Joke">
+        <div className={style.Joke}>
           <div>
-            <span>
-              ID:<a href={link + id}>{id}</a>
+            <span className={style.linkID}>
+              ID:<a href={(baseURL, id)}>{id}</a>
             </span>
             <button
-              className="btnFavoriteJoke"
+              className={style.btnFavoriteJoke}
               onClick={() => {
                 dispatch({
                   type: "addFavoriteJoke",
@@ -33,8 +33,7 @@ const CardJoke = ({ joke, dispatch }) => {
             </button>
           </div>
           <p>{value}</p>
-          <p className="dataOfMessage">last update: {updated_at}</p>
-          <button className="selectedCategorie">Categorie</button>
+          <p className={style.dataOfMessage}>last update: {updated_at}</p>
         </div>
       </div>
     </div>

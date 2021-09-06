@@ -1,47 +1,57 @@
 import React from "react";
-import "./css/SelectCategories.css";
+import style from "./css/SelectTypeJokes.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
-const SelectCategories = () => {
+import useConstsTypeJokes from "./useConstsTypeJokes";
+const SelectTypeJokes = () => {
+  const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
   return (
     <div>
       <header>
         <h3>MSI 2020</h3>
       </header>
-      <div className="main">
+      <div className={style.main}>
         <h2>Hey!</h2>
         <h3>Let's try to find a joke for you:</h3>
-
         <div>
           <form>
-            <label htmlFor="random">
+            <label htmlFor={style.random}>
               <input
                 name="down"
                 type="radio"
-                value="random"
-                id="random"
-                onClick={jokeLogik.randomJoke}
-              ></input>
+                id={style.random}
+                onClick={() => {
+                  jokeLogik.getJokes("random", "setRandomJoke", " ");
+                }}
+              />
               random
             </label>
             <p></p>
-            <label htmlFor="from categories">
+            <label htmlFor={style.fromCategories}>
               <input
                 name="down"
                 type="radio"
-                value="from categories"
-                id="from categories"
+                id={style.fromCategories}
                 onClick={jokeLogik.fetchCategories}
-              ></input>
+              />
               From categories
             </label>
 
-            <select onChange={(event) => jokeLogik.selectedOption(event)}>
+            <select
+              onChange={(event) =>
+                jokeLogik.getJokes(
+                  "random?category=",
+                  "setjokeByCategorie",
+                  event
+                )
+              }
+              className={style.select}
+            >
               {jokeLogik.state.categories.map((categorie) => {
                 return (
-                  <option key={categorie} value={categorie}>
+                  <option key={categorie} value={categorie} className="option">
                     {categorie}
                   </option>
                 );
@@ -50,26 +60,22 @@ const SelectCategories = () => {
             <div>
               <p></p>
               <label htmlFor="search">
-                <input
-                  type="radio"
-                  value="search"
-                  id="search"
-                  name="down"
-                ></input>
+                <input type="radio" name="down" id="search" />
                 Search
               </label>
               <input
                 type="text"
                 placeholder="Search a joke"
-                onChange={(event) => jokeLogik.searchJokes(event)}
+                onChange={(event) =>
+                  jokeLogik.getJokes("search?query=", "setSearchJoke", event)
+                }
               ></input>
             </div>
           </form>
         </div>
       </div>
       <p></p>
-
-      {jokeLogik.state.typeOfJoke === jokeLogik.SEARCH_JOKES &&
+      {jokeLogik.state.typeOfJoke === ConstsTypeJokes.SEARCH_JOKES &&
       jokeLogik.state.searchJokes !== undefined ? (
         jokeLogik.state.searchJokes.map((searchJoke) => {
           return (
@@ -92,4 +98,4 @@ const SelectCategories = () => {
     </div>
   );
 };
-export default SelectCategories;
+export default SelectTypeJokes;
