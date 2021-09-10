@@ -1,7 +1,9 @@
 import React from "react";
 import style from "./css/CardJoke.module.css";
-const CardJoke = ({ joke, dispatch }) => {
+import Consts from "./useConsts";
+const CardJoke = ({ joke, dispatch, selectedCategorie }) => {
   const { id, value, updated_at } = joke;
+  console.log("CardJoke:", selectedCategorie);
   let baseURL = "https://api.chucknorris.io/jokes/";
   return (
     <div className={style.container}>
@@ -24,7 +26,7 @@ const CardJoke = ({ joke, dispatch }) => {
               className={style.btnFavoriteJoke}
               onClick={() => {
                 dispatch({
-                  type: "addFavoriteJoke",
+                  type: Consts.ADD_FAVORITE_JOKE,
                   payload: joke,
                 });
               }}
@@ -34,6 +36,11 @@ const CardJoke = ({ joke, dispatch }) => {
           </div>
           <p>{value}</p>
           <p className={style.dataOfMessage}>last update: {updated_at}</p>
+          {selectedCategorie !== null ? (
+            <button className={style.btnCategorie}>{selectedCategorie}</button>
+          ) : (
+            console.log()
+          )}
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./css/FavoriteJokes.module.css";
+import Consts from "./useConsts";
 const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
   let baseURL = "https://api.chucknorris.io/jokes/";
   console.log("favoritesJokes ", favoritesJokes);
-
   return (
     <div className={style.containerFavoritesJokes}>
       <h3>Favorites</h3>
@@ -31,7 +31,7 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
                   className={style.iconFavoriteJoke}
                   onClick={() => {
                     dispatch({
-                      type: "deleteFavoriteJoke",
+                      type: Consts.DELETE_FAVORITE_JOKE,
                       payload: joke.id,
                     });
                   }}

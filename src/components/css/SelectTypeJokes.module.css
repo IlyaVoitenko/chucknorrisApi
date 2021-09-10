@@ -1,3 +1,36 @@
 .main {
   width: 100%;
 }
+.select {
+  display: none;
+}
+.inputSearch {
+  display: none;
+}
+.btnСategories {
+  border-radius: 3px;
+  text-transform: uppercase;
+  margin-left: 10px;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid white;
+  box-shadow: 0 0 10px rgba(0.1, 0.1, 0.1, 0.1);
+}
+.hiddenСategories {
+  display: none;
+}
+.showСategories {
+  display: block;
+  width: 450px;
+}
+.inputSearchShow {
+  margin-top: 10px;
+  display: block;
+  width: 300px;
+  border: 2px solid black;
+  border-radius: 4px;
+  height: 20px;
+}
+.showOption {
+  display: block;
+}

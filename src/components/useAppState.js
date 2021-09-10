@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
-import ConstsTypeJokes from "./useConstsTypeJokes";
+import ConstsTypeJokes from "./useConsts";
 const Consts = ConstsTypeJokes();
-const baseURL = "https://api.chucknorris.io/jokes/";
+
 const initialState = {
   favoriteJokes: [],
   randomJoke: {},
@@ -16,7 +16,7 @@ const useJoke = () => {
   function getJokes(queryString, typeReducer, { target }) {
     let query = "";
     typeReducer !== "setRandomJoke" ? (query = target.value) : console.log();
-    fetch(baseURL + queryString + query)
+    fetch(Consts.BASE_URL + queryString + query)
       .then((data) => data.json())
       .then((joke) => {
         typeReducer === "setSearchJoke"
@@ -28,6 +28,9 @@ const useJoke = () => {
               payload: joke,
               type: typeReducer,
             });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
   useEffect(() => {
@@ -40,9 +43,10 @@ const useJoke = () => {
         });
       });
   }, []);
+
   const reducerFunction = (state, action) => {
     switch (action.type) {
-      case "deleteFavoriteJoke":
+      case Consts.DELETE_FAVORITE_JOKE:
         let newFavoriteJoke = state.favoriteJokes.filter(
           (joke) => joke.id !== action.payload
         );
@@ -50,26 +54,26 @@ const useJoke = () => {
           ...state,
           favoriteJokes: newFavoriteJoke,
         };
-      case "addFavoriteJoke":
+      case Consts.ADD_FAVORITE_JOKE:
         return {
           ...state,
           favoriteJokes: [...state.favoriteJokes, { ...action.payload }],
         };
-      case "setRandomJoke":
+      case Consts.SET_RANDOM_JOKE:
         return {
           ...state,
           randomJoke: action.payload,
           typeOfJoke: Consts.RANDOM,
         };
-      case "setCategoriesOfJokes":
+      case Consts.SET_CATEGORIES_OF_JOKES:
         return { ...state, categories: action.payload };
-      case "setjokeByCategorie":
+      case Consts.SET_JOKE_BY_CATEGORIE:
         return {
           ...state,
           jokeByCategorie: action.payload,
           typeOfJoke: Consts.RANDOM_BY_CATEGORIE,
         };
-      case "setSearchJoke":
+      case Consts.SET_SEARCH_JOKE:
         return {
           ...state,
           searchJokes: action.payload,

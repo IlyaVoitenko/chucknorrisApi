@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import style from "./css/SelectTypeJokes.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
-import useConstsTypeJokes from "./useConstsTypeJokes";
+import useConstsTypeJokes from "./useConsts";
+
 const SelectTypeJokes = () => {
   const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
+  const [dataFetch, setDataFetch] = useState({});
+  const [selectedCategorie, setSelectedCategorie] = useState(null);
+  const [stateSearch, setStateSearch] = useState(null);
   return (
     <div>
       <header>
@@ -22,8 +26,14 @@ const SelectTypeJokes = () => {
                 name="down"
                 type="radio"
                 id={style.random}
-                onClick={() => {
-                  jokeLogik.getJokes("random", "setRandomJoke", " ");
+                onChange={() => {
+                  setSelectedCategorie(null);
+                  setStateSearch(null);
+                  setDataFetch({
+                    link: "random",
+                    typeCase: "setRandomJoke",
+                    value: "",
+                  });
                 }}
               />
               random
@@ -34,52 +44,90 @@ const SelectTypeJokes = () => {
                 name="down"
                 type="radio"
                 id={style.fromCategories}
-                onClick={jokeLogik.fetchCategories}
+                onChange={(event) => {
+                  setSelectedCategorie(true);
+                }}
               />
               From categories
             </label>
+            {selectedCategorie !== null ? (
+              <div>
+                {jokeLogik.state.categories.map((categorie) => {
+                  return (
+                    <button
+                      className={style.btnСategories}
+                      key={categorie}
+                      value={categorie}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        setSelectedCategorie(categorie);
+                        setDataFetch({
+                          link: "random?category=",
+                          typeCase: "setjokeByCategorie",
+                          value: event,
+                        });
+                      }}
+                    >
+                      {categorie}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              console.log(selectedCategorie)
+            )}
 
-            <select
-              onChange={(event) =>
-                jokeLogik.getJokes(
-                  "random?category=",
-                  "setjokeByCategorie",
-                  event
-                )
-              }
-              className={style.select}
-            >
-              {jokeLogik.state.categories.map((categorie) => {
-                return (
-                  <option key={categorie} value={categorie} className="option">
-                    {categorie}
-                  </option>
-                );
-              })}
-            </select>
             <div>
               <p></p>
-              <label htmlFor="search">
-                <input type="radio" name="down" id="search" />
+              <label htmlFor="labelSearch">
+                <input
+                  type="radio"
+                  name="down"
+                  id="labelSearch"
+                  onChange={() => {
+                    setStateSearch(true);
+                    setSelectedCategorie(null);
+                  }}
+                />
                 Search
               </label>
-              <input
-                type="text"
-                placeholder="Search a joke"
-                onChange={(event) =>
-                  jokeLogik.getJokes("search?query=", "setSearchJoke", event)
-                }
-              ></input>
+              {stateSearch !== null ? (
+                <input
+                  type="text"
+                  placeholder="Free text search..."
+                  onChange={(event) => {
+                    setDataFetch({
+                      link: "search?query=",
+                      typeCase: "setSearchJoke",
+                      value: event,
+                    });
+                  }}
+                  className={style.inputSearch}
+                ></input>
+              ) : null}
             </div>
           </form>
         </div>
       </div>
-      <p></p>
+      <p>
+        <button
+          onClick={() => {
+            jokeLogik.getJokes(
+              dataFetch.link,
+              dataFetch.typeCase,
+              dataFetch.value
+            );
+          }}
+        >
+          Get a joke
+        </button>
+      </p>
       {jokeLogik.state.typeOfJoke === ConstsTypeJokes.SEARCH_JOKES &&
       jokeLogik.state.searchJokes !== undefined ? (
         jokeLogik.state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke
+              selectedCategorie={selectedCategorie}
               joke={searchJoke}
               dispatch={jokeLogik.dispatch}
             ></CardJoke>
@@ -87,6 +135,7 @@ const SelectTypeJokes = () => {
         })
       ) : (
         <CardJoke
+          selectedCategorie={selectedCategorie}
           joke={jokeLogik.currentJoke}
           dispatch={jokeLogik.dispatch}
         ></CardJoke>
