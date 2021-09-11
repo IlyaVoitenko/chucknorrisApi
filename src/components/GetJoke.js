@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import style from "./css/SelectTypeJokes.module.css";
+import style from "./css/GetJoke.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
 import useConstsTypeJokes from "./useConsts";
 
-const SelectTypeJokes = () => {
-  const [dispatchState, setDispatchState] = useState("addFavoriteJoke");
+const GetJoke = () => {
+  const [addOrDeleteDispatchType, setaddOrDeleteDispatchType] = useState("addFavoriteJoke");
   const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
   const [stateSelectedRadio, setStateSelectedRadio] = useState("");
@@ -19,7 +19,7 @@ const SelectTypeJokes = () => {
       <div className={style.main}>
         <h2>Hey!</h2>
         <h3>Let's try to find a joke for you:</h3>
-        <div>
+       
           <form>
             <label htmlFor={style.random}>
               <input
@@ -103,7 +103,7 @@ const SelectTypeJokes = () => {
               ) : null}
             </div>
           </form>
-        </div>
+       
       </div>
       <p>
         <button
@@ -123,7 +123,7 @@ const SelectTypeJokes = () => {
         jokeLogik.state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke
-              stateDispatch={dispatchState}
+              addOrDeleteDispatchType={addOrDeleteDispatchType}
               selectedCategorie={stateSelectedRadio}
               joke={searchJoke}
               dispatch={jokeLogik.dispatch}
@@ -132,18 +132,18 @@ const SelectTypeJokes = () => {
         })
       ) : (
         <CardJoke
-          stateDispatch={dispatchState}
+          addOrDeleteDispatchType={addOrDeleteDispatchType}
           selectedCategorie={stateSelectedRadio}
           joke={jokeLogik.currentJoke}
           dispatch={jokeLogik.dispatch}
         ></CardJoke>
       )}
       <ListFavoriteJoke
-        stateDispatch={dispatchState}
+        stateDispatch={addOrDeleteDispatchType}
         favoritesJokes={jokeLogik.state.favoriteJokes}
         dispatch={jokeLogik.dispatch}
       />
     </div>
   );
 };
-export default SelectTypeJokes;
+export default GetJoke;

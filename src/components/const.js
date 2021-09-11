@@ -1,5 +1,5 @@
-const useConstsTypeJokes = () => {
-  return {
+
+  const consts =  {
     RANDOM: "random",
     RANDOM_BY_CATEGORIE: "randombycategorie",
     SEARCH_JOKES: "search",
@@ -12,5 +12,5 @@ const useConstsTypeJokes = () => {
     BASE_URL: "https://api.chucknorris.io/jokes/",
     STATE_CHECKED: "setStateChecked",
   };
-};
-export default useConstsTypeJokes;
+
+  export default consts

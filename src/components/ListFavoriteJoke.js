@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import CardJoke from "./CardJoke";
 import style from "./css/FavoriteJokes.module.css";
-const ListFavoriteJoke = ({ favoritesJokes, dispatch, stateDispatch }) => {
-  stateDispatch = "deleteFavoriteJoke";
+const ListFavoriteJoke = ({ favoritesJokes, dispatch }) => {
+  
   return (
     <div className={style.containerFavoritesJokes}>
       <h3>Favorites</h3>
@@ -12,7 +12,7 @@ const ListFavoriteJoke = ({ favoritesJokes, dispatch, stateDispatch }) => {
             <CardJoke
               joke={joke}
               dispatch={dispatch}
-              stateDispatch={stateDispatch}
+              deleteOrAddActionType={'addFavorite'}
             ></CardJoke>
           </div>
         );

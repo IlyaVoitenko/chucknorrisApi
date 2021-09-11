@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./css/CardJoke.module.css";
-const CardJoke = ({ joke, dispatch, selectedCategorie, stateDispatch }) => {
+
+const CardJoke = ({ joke, dispatch, selectedCategorie, addOrDeleteDispatchType }) => {
   const { id, value, updated_at } = joke;
   let baseURL = "https://api.chucknorris.io/jokes/";
   return (
@@ -24,9 +25,9 @@ const CardJoke = ({ joke, dispatch, selectedCategorie, stateDispatch }) => {
               className={style.btnFavoriteJoke}
               onClick={() => {
                 //"addFavoriteJoke"
-                console.log("type:::", stateDispatch);
+                console.log("type:::", addOrDeleteDispatchType);
                 dispatch({
-                  type: stateDispatch,
+                  type: addOrDeleteDispatchType,
                   payload: joke,
                 });
               }}
