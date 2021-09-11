@@ -11,6 +11,7 @@ const SelectTypeJokes = () => {
   const [dispatchState, setDispatchState] = useState("addFavoriteJoke");
   const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
+
   const [stateSelectedRadio, setStateSelectedRadio] = useState("");
   //get params or something?
   const [dataFetch, setDataFetch] = useState({});

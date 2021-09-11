@@ -67,6 +67,8 @@ const useJoke = () => {
           ...state,
           favoriteJokes: [...state.favoriteJokes, { ...action.payload }],
         };
+        // case 'delete-favorite': 
+        //ad some logic
       case Consts.SET_RANDOM_JOKE:
         return {
           ...state,

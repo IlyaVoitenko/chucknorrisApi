@@ -4,6 +4,16 @@ import style from "./css/CardJoke.module.css";
 const CardJoke = ({ joke, dispatch, selectedCategorie, stateDispatch }) => {
   const { id, value, updated_at } = joke;
   let baseURL = "https://api.chucknorris.io/jokes/";
+
+ 
+
+  // when you need to show favorite by heart check if joke in favorites massive
+  //const isFavorite = favorites.find(favorite => favorite.id === joke.id)
+
+   //handleClickFavorite
+  // check if joke in favorite - disptach delete
+  // else dispatch add
+  
   return (
     <div className={style.container}>
       <div className={style.message}>
