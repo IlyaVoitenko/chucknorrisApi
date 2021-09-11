@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import style from "./css/SelectTypeJokes.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
@@ -6,11 +6,11 @@ import useJoke from "./useAppState";
 import useConstsTypeJokes from "./useConsts";
 
 const SelectTypeJokes = () => {
+  const [dispatchState, setDispatchState] = useState("addFavoriteJoke");
   const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
+  const [stateSelectedRadio, setStateSelectedRadio] = useState("");
   const [dataFetch, setDataFetch] = useState({});
-  const [selectedCategorie, setSelectedCategorie] = useState(null);
-  const [stateSearch, setStateSearch] = useState(null);
   return (
     <div>
       <header>
@@ -27,8 +27,7 @@ const SelectTypeJokes = () => {
                 type="radio"
                 id={style.random}
                 onChange={() => {
-                  setSelectedCategorie(null);
-                  setStateSearch(null);
+                  setStateSelectedRadio("random");
                   setDataFetch({
                     link: "random",
                     typeCase: "setRandomJoke",
@@ -44,13 +43,13 @@ const SelectTypeJokes = () => {
                 name="down"
                 type="radio"
                 id={style.fromCategories}
-                onChange={(event) => {
-                  setSelectedCategorie(true);
+                onChange={() => {
+                  setStateSelectedRadio("categories");
                 }}
               />
               From categories
             </label>
-            {selectedCategorie !== null ? (
+            {stateSelectedRadio === "categories" ? (
               <div>
                 {jokeLogik.state.categories.map((categorie) => {
                   return (
@@ -60,7 +59,7 @@ const SelectTypeJokes = () => {
                       value={categorie}
                       onClick={(event) => {
                         event.preventDefault();
-                        setSelectedCategorie(categorie);
+                        setStateSelectedRadio(categorie);
                         setDataFetch({
                           link: "random?category=",
                           typeCase: "setjokeByCategorie",
@@ -73,9 +72,7 @@ const SelectTypeJokes = () => {
                   );
                 })}
               </div>
-            ) : (
-              console.log(selectedCategorie)
-            )}
+            ) : null}
 
             <div>
               <p></p>
@@ -85,13 +82,12 @@ const SelectTypeJokes = () => {
                   name="down"
                   id="labelSearch"
                   onChange={() => {
-                    setStateSearch(true);
-                    setSelectedCategorie(null);
+                    setStateSelectedRadio("search");
                   }}
                 />
                 Search
               </label>
-              {stateSearch !== null ? (
+              {stateSelectedRadio === "search" ? (
                 <input
                   type="text"
                   placeholder="Free text search..."
@@ -127,7 +123,8 @@ const SelectTypeJokes = () => {
         jokeLogik.state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke
-              selectedCategorie={selectedCategorie}
+              stateDispatch={dispatchState}
+              selectedCategorie={stateSelectedRadio}
               joke={searchJoke}
               dispatch={jokeLogik.dispatch}
             ></CardJoke>
@@ -135,12 +132,14 @@ const SelectTypeJokes = () => {
         })
       ) : (
         <CardJoke
-          selectedCategorie={selectedCategorie}
+          stateDispatch={dispatchState}
+          selectedCategorie={stateSelectedRadio}
           joke={jokeLogik.currentJoke}
           dispatch={jokeLogik.dispatch}
         ></CardJoke>
       )}
       <ListFavoriteJoke
+        stateDispatch={dispatchState}
         favoritesJokes={jokeLogik.state.favoriteJokes}
         dispatch={jokeLogik.dispatch}
       />
