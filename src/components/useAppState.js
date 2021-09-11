@@ -9,13 +9,19 @@ const initialState = {
   jokeByCategorie: {},
   searchJokes: [],
   typeOfJoke: Consts.RANDOM,
-  jokes: [],
   queryString: "",
 };
 const useJoke = () => {
   function getJokes(queryString, typeReducer, { target }) {
-    let query = "";
-    typeReducer !== "setRandomJoke" ? (query = target.value) : console.log();
+    
+    //fix all to consts
+    // typeReducer !== "setRandomJoke" ? (query = target.value) : console.log();
+
+    const query = typeReducer !== "setRandomJoke" ? target.value : ''
+
+    // string templates
+    //IDEA currentJokes, showingJokes state where will be all types of jokes(random, byCategorie, bySearch)
+
     fetch(Consts.BASE_URL + queryString + query)
       .then((data) => data.json())
       .then((joke) => {
@@ -33,6 +39,7 @@ const useJoke = () => {
         console.log(err);
       });
   }
+
   useEffect(() => {
     fetch("https://api.chucknorris.io/jokes/categories")
       .then((dataOfCategories) => dataOfCategories.json())
@@ -47,6 +54,7 @@ const useJoke = () => {
   const reducerFunction = (state, action) => {
     switch (action.type) {
       case Consts.DELETE_FAVORITE_JOKE:
+        // use const where it's possible always
         let newFavoriteJoke = state.favoriteJokes.filter(
           (joke) => joke.id !== action.payload
         );
@@ -68,6 +76,7 @@ const useJoke = () => {
       case Consts.SET_CATEGORIES_OF_JOKES:
         return { ...state, categories: action.payload };
       case Consts.SET_JOKE_BY_CATEGORIE:
+        // typeOfCurrentJoke
         return {
           ...state,
           jokeByCategorie: action.payload,
@@ -83,7 +92,9 @@ const useJoke = () => {
         throw "Bad action type";
     }
   };
+
   const [state, dispatch] = useReducer(reducerFunction, initialState);
+
   const currentJoke =
     state.typeOfJoke === Consts.RANDOM
       ? state.randomJoke
@@ -97,3 +108,4 @@ const useJoke = () => {
   };
 };
 export default useJoke;
+

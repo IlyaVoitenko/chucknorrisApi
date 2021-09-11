@@ -5,12 +5,16 @@ import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
 import useConstsTypeJokes from "./useConsts";
 
+//renamge GetJokes or something like this
 const SelectTypeJokes = () => {
+
   const [dispatchState, setDispatchState] = useState("addFavoriteJoke");
   const ConstsTypeJokes = useConstsTypeJokes();
   const jokeLogik = useJoke();
   const [stateSelectedRadio, setStateSelectedRadio] = useState("");
+  //get params or something?
   const [dataFetch, setDataFetch] = useState({});
+  
   return (
     <div>
       <header>
@@ -21,11 +25,11 @@ const SelectTypeJokes = () => {
         <h3>Let's try to find a joke for you:</h3>
         <div>
           <form>
-            <label htmlFor={style.random}>
+        {/* add proper id & htmlFor everywhere */}
+            <label>
               <input
                 name="down"
                 type="radio"
-                id={style.random}
                 onChange={() => {
                   setStateSelectedRadio("random");
                   setDataFetch({
@@ -95,6 +99,7 @@ const SelectTypeJokes = () => {
                     setDataFetch({
                       link: "search?query=",
                       typeCase: "setSearchJoke",
+                      // change to event.target.value
                       value: event,
                     });
                   }}
@@ -118,8 +123,7 @@ const SelectTypeJokes = () => {
           Get a joke
         </button>
       </p>
-      {jokeLogik.state.typeOfJoke === ConstsTypeJokes.SEARCH_JOKES &&
-      jokeLogik.state.searchJokes !== undefined ? (
+      {jokeLogik.state.typeOfJoke === ConstsTypeJokes.SEARCH_JOKES ? (
         jokeLogik.state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import CardJoke from "./CardJoke";
 import style from "./css/FavoriteJokes.module.css";
+
 const ListFavoriteJoke = ({ favoritesJokes, dispatch, stateDispatch }) => {
+  // you cannot change props like this!!!
   stateDispatch = "deleteFavoriteJoke";
   return (
     <div className={style.containerFavoritesJokes}>
