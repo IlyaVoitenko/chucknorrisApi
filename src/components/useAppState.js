@@ -1,22 +1,32 @@
 import { useEffect, useReducer } from "react";
-import ConstsTypeJokes from "./useConsts";
-const Consts = ConstsTypeJokes();
-
+import ConstsTypeJokes from "./consts";
+const {
+  BASE_URL,
+  RANDOM,
+  DELETE_FAVORITE_JOKE,
+  ADD_FAVORITE_JOKE,
+  SET_RANDOM_JOKE,
+  SET_CATEGORIES_OF_JOKES,
+  SET_JOKE_BY_CATEGORIE,
+  RANDOM_BY_CATEGORIE,
+  SET_SEARCH_JOKE,
+  SEARCH_JOKES,
+} = ConstsTypeJokes;
 const initialState = {
   favoriteJokes: [],
   randomJoke: {},
   categories: [],
   jokeByCategorie: {},
   searchJokes: [],
-  typeOfJoke: Consts.RANDOM,
-  jokes: [],
+  typeOfJoke: RANDOM,
   queryString: "",
 };
 const useJoke = () => {
   function getJokes(queryString, typeReducer, { target }) {
-    let query = "";
-    typeReducer !== "setRandomJoke" ? (query = target.value) : console.log();
-    fetch(Consts.BASE_URL + queryString + query)
+    const query = typeReducer !== "setRandomJoke" ? target.value : "";
+    //IDEA currentJokes, showingJokes state where will be all types of jokes(
+    //random, byCategorie, bySearch)
+    fetch(`${BASE_URL}${queryString}${query}`)
       .then((data) => data.json())
       .then((joke) => {
         typeReducer === "setSearchJoke"
@@ -45,39 +55,41 @@ const useJoke = () => {
   }, []);
 
   const reducerFunction = (state, action) => {
+    // case 'delete-favorite':
+    //ad some logic
     switch (action.type) {
-      case Consts.DELETE_FAVORITE_JOKE:
-        let newFavoriteJoke = state.favoriteJokes.filter(
-          (joke) => joke.id !== action.payload
+      case DELETE_FAVORITE_JOKE:
+        const newFavoriteJokes = state.favoriteJokes.filter(
+          (joke) => joke.id !== action.payload.id
         );
         return {
           ...state,
-          favoriteJokes: newFavoriteJoke,
+          favoriteJokes: newFavoriteJokes,
         };
-      case Consts.ADD_FAVORITE_JOKE:
+      case ADD_FAVORITE_JOKE:
         return {
           ...state,
           favoriteJokes: [...state.favoriteJokes, { ...action.payload }],
         };
-      case Consts.SET_RANDOM_JOKE:
+      case SET_RANDOM_JOKE:
         return {
           ...state,
           randomJoke: action.payload,
-          typeOfJoke: Consts.RANDOM,
+          typeOfJoke: RANDOM,
         };
-      case Consts.SET_CATEGORIES_OF_JOKES:
+      case SET_CATEGORIES_OF_JOKES:
         return { ...state, categories: action.payload };
-      case Consts.SET_JOKE_BY_CATEGORIE:
+      case SET_JOKE_BY_CATEGORIE:
         return {
           ...state,
           jokeByCategorie: action.payload,
-          typeOfJoke: Consts.RANDOM_BY_CATEGORIE,
+          typeOfJoke: RANDOM_BY_CATEGORIE,
         };
-      case Consts.SET_SEARCH_JOKE:
+      case SET_SEARCH_JOKE:
         return {
           ...state,
           searchJokes: action.payload,
-          typeOfJoke: Consts.SEARCH_JOKES,
+          typeOfJoke: SEARCH_JOKES,
         };
       default:
         throw "Bad action type";
@@ -85,9 +97,7 @@ const useJoke = () => {
   };
   const [state, dispatch] = useReducer(reducerFunction, initialState);
   const currentJoke =
-    state.typeOfJoke === Consts.RANDOM
-      ? state.randomJoke
-      : state.jokeByCategorie;
+    state.typeOfJoke === RANDOM ? state.randomJoke : state.jokeByCategorie;
 
   return {
     dispatch,

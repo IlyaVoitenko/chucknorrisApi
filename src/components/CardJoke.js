@@ -1,8 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "./css/CardJoke.module.css";
-const CardJoke = ({ joke, dispatch, selectedCategorie, stateDispatch }) => {
+import consts from "./consts";
+const { baseURL } = consts;
+const CardJoke = ({
+  joke,
+  dispatch,
+  selectedCategorie,
+  favoritesJokes = [],
+}) => {
   const { id, value, updated_at } = joke;
-  let baseURL = "https://api.chucknorris.io/jokes/";
+  // when you need to show favorite by heart check if joke in favorites massive
+  const isFavourite = !!favoritesJokes.find((favoritesJoke) => {
+    console.log(favoritesJoke);
+    return favoritesJoke.id === joke.id;
+  });
+  function filterAddOrDeleteJoke(isFavourite) {
+    if (isFavourite) {
+      console.log("isFavorite :", isFavourite);
+      dispatch({
+        type: "deleteFavoriteJoke",
+        payload: joke,
+      });
+    } else {
+      console.log("isFavorite :", isFavourite);
+      dispatch({
+        type: "addFavoriteJoke",
+        payload: joke,
+      });
+    }
+  }
   return (
     <div className={style.container}>
       <div className={style.message}>
@@ -23,12 +49,7 @@ const CardJoke = ({ joke, dispatch, selectedCategorie, stateDispatch }) => {
             <button
               className={style.btnFavoriteJoke}
               onClick={() => {
-                //"addFavoriteJoke"
-                console.log("type:::", stateDispatch);
-                dispatch({
-                  type: stateDispatch,
-                  payload: joke,
-                });
+                filterAddOrDeleteJoke(isFavourite);
               }}
             >
               &#10084;

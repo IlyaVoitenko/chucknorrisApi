@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import style from "./css/SelectTypeJokes.module.css";
+import style from "./css/GetJokesByType.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
-import useConstsTypeJokes from "./consts";
-const { SEARCH_JOKES } = useConstsTypeJokes;
-
-const SelectTypeJokes = () => {
-  const jokeLogik = useJoke();
+import consts from "./consts";
+const { state, getJokes, dispatch, currentJoke } = useJoke;
+const { SEARCH_JOKES } = consts;
+const GetJokesByType = () => {
   const [stateSelectedRadio, setStateSelectedRadio] = useState("");
-  const [dataFetch, setDataFetch] = useState({});
+  const [parametersGetJokes, setParametersGetJokes] = useState({});
   return (
     <div>
       <header>
@@ -27,7 +26,7 @@ const SelectTypeJokes = () => {
                 id={style.random}
                 onChange={() => {
                   setStateSelectedRadio("random");
-                  setDataFetch({
+                  setParametersGetJokes({
                     link: "random",
                     typeCase: "setRandomJoke",
                     value: "",
@@ -37,20 +36,21 @@ const SelectTypeJokes = () => {
               random
             </label>
             <p></p>
-            <label htmlFor={style.fromCategories}>
+            <label htmlFor="fromCategories">
               <input
                 name="down"
                 type="radio"
-                id={style.fromCategories}
+                id="fromCategories"
                 onChange={() => {
                   setStateSelectedRadio("categories");
                 }}
               />
               From categories
             </label>
+
             {stateSelectedRadio === "categories" ? (
               <div>
-                {jokeLogik.state.categories.map((categorie) => {
+                {state.categories.map((categorie) => {
                   return (
                     <button
                       className={style.btnСategories}
@@ -59,7 +59,7 @@ const SelectTypeJokes = () => {
                       onClick={(event) => {
                         event.preventDefault();
                         setStateSelectedRadio(categorie);
-                        setDataFetch({
+                        setParametersGetJokes({
                           link: "random?category=",
                           typeCase: "setjokeByCategorie",
                           value: event,
@@ -91,7 +91,7 @@ const SelectTypeJokes = () => {
                   type="text"
                   placeholder="Free text search..."
                   onChange={(event) => {
-                    setDataFetch({
+                    setParametersGetJokes({
                       link: "search?query=",
                       typeCase: "setSearchJoke",
                       value: event,
@@ -107,42 +107,40 @@ const SelectTypeJokes = () => {
       <p>
         <button
           onClick={() => {
-            jokeLogik.getJokes(
-              dataFetch.link,
-              dataFetch.typeCase,
-              dataFetch.value
+            getJokes(
+              parametersGetJokes.link,
+              parametersGetJokes.typeCase,
+              parametersGetJokes.value
             );
           }}
         >
           Get a joke
         </button>
       </p>
-      {jokeLogik.state.typeOfJoke === SEARCH_JOKES ? (
-        jokeLogik.state.searchJokes.map((searchJoke) => {
+      {state.typeOfJoke === SEARCH_JOKES ? (
+        state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke
-              key={searchJoke.id}
-              addOrDeleteJoke={"addFavoriteJoke"}
+              favoritesJokes={state.favoriteJokes}
               selectedCategorie={stateSelectedRadio}
               joke={searchJoke}
-              dispatch={jokeLogik.dispatch}
+              dispatch={dispatch}
             ></CardJoke>
           );
         })
       ) : (
         <CardJoke
-          addOrDeleteJoke={"addFavoriteJoke"}
+          favoritesJokes={state.favoriteJokes}
           selectedCategorie={stateSelectedRadio}
-          joke={jokeLogik.currentJoke}
-          dispatch={jokeLogik.dispatch}
+          joke={currentJoke}
+          dispatch={dispatch}
         ></CardJoke>
       )}
       <ListFavoriteJoke
-        addOrDeleteJoke={"deleteFavoriteJoke"}
-        favoritesJokes={jokeLogik.state.favoriteJokes}
-        dispatch={jokeLogik.dispatch}
+        favoritesJokes={state.favoriteJokes}
+        dispatch={dispatch}
       />
     </div>
   );
 };
-export default SelectTypeJokes;
+export default GetJokesByType;
