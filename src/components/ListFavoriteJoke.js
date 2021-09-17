@@ -16,6 +16,7 @@ const ListFavoriteJoke = ({
               favoritesJokes={favoritesJokes}
               joke={joke}
               dispatch={dispatch}
+              addOrDeleteJoke={addOrDeleteJoke}
             ></CardJoke>
           </div>
         );

@@ -11,7 +11,6 @@ const CardJoke = ({
   const { id, value, updated_at } = joke;
   // when you need to show favorite by heart check if joke in favorites massive
   const isFavourite = !!favoritesJokes.find((favoritesJoke) => {
-    console.log(favoritesJoke);
     return favoritesJoke.id === joke.id;
   });
   function filterAddOrDeleteJoke(isFavourite) {
