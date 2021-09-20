@@ -1,9 +1,9 @@
-import SelectTypeJokes from "./components/SelectTypeJokes";
+import GetJokesByType from "./components/GetJokesByType";
 import "./App.css";
 function App() {
   return (
     <div className="App">
-      <SelectTypeJokes />
+      <GetJokesByType />
     </div>
   );
 }

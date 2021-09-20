@@ -16,11 +16,19 @@
 .container {
   height: 100%;
   width: 300px;
-  background-color: cadetblue;
 }
 .iconFavoriteJoke {
   color: brown;
   font-size: 25px;
+  border: none;
+  width: 40px;
+  height: 30px;
+  margin-left: 50%;
+}
+.btnFavoriteJokeClicked {
+  background-color: rgba(226, 226, 226);
+  font-size: 25px;
+  color: brown;
   border: none;
   width: 40px;
   height: 30px;
@@ -39,7 +47,7 @@
   color: brown;
 }
 .Joke {
-  width: 570px;
+  width: 540px;
 }
 .iconMessage {
   margin-left: 1px;
@@ -62,17 +70,36 @@
   border: 1px solid white;
   box-shadow: 0 0 10px rgba(0.1, 0.1, 0.1, 0.1);
 }
-.message {
+.btnCategorieHidden {
+  display: none;
+}
+.cardJoke {
   border-radius: 15px;
   height: 200px;
-  width: 630px;
+  width: 600px;
+  margin-left: 20px;
   background-color: rgb(226, 226, 226);
+}
+.cardJokeShadow {
+  margin-top: 30px;
+  border-radius: 15px;
+  height: 200px;
+  width: 600px;
+  margin-left: 20px;
+  background-color: rgb(226, 226, 226);
+  box-shadow: 0px 2px 13px 0px grey;
 }
 .containerText {
   padding-left: 70px;
 }
-.message > div {
+.cardJoke > div {
   float: left;
+}
+.cardJokeShadow > div {
+  float: left;
+}
+.cardJokeShadow > {
+  margin-top: 20px;
 }
 .selectedCategorie {
   margin-left: 80%;

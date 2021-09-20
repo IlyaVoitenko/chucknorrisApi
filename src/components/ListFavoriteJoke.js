@@ -1,26 +1,34 @@
 import React from "react";
 import CardJoke from "./CardJoke";
-import style from "./css/FavoriteJokes.module.css";
+import styleListFavorite from "./css/FavoriteJokes.module.css";
 const ListFavoriteJoke = ({
   favoritesJokes = [],
   dispatch,
-  addOrDeleteJoke,
+  btnFavoriteJokeClicked,
+  CardJokeDiv,
+  styleBtnCardFavorite,
 }) => {
   return (
-    <div className={style.containerFavoritesJokes}>
-      <h3>Favorites</h3>
-      {favoritesJokes.map((joke) => {
-        return (
-          <div key={joke.id}>
-            <CardJoke
-              favoritesJokes={favoritesJokes}
-              joke={joke}
-              dispatch={dispatch}
-              addOrDeleteJoke={addOrDeleteJoke}
-            ></CardJoke>
-          </div>
-        );
-      })}
+    <div className={styleListFavorite.containerFavoritesJokes}>
+      <div>
+        <h3>Favorites</h3>
+      </div>
+      <div>
+        {favoritesJokes.map((joke) => {
+          return (
+            <div key={joke.id} className="favotiteJoke">
+              <CardJoke
+                CardJokeDiv={CardJokeDiv}
+                btnFavoriteJokeClicked={btnFavoriteJokeClicked}
+                styleBtnCardFavorite={styleBtnCardFavorite}
+                favoritesJokes={favoritesJokes}
+                joke={joke}
+                dispatch={dispatch}
+              ></CardJoke>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

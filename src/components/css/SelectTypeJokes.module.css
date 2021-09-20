@@ -1,5 +1,9 @@
 .main {
   width: 100%;
+  margin-left: 20px;
+}
+.marginLeft {
+  margin-left: 20px;
 }
 .select {
   display: none;

@@ -5,6 +5,10 @@
   height: 100%;
   width: 630px;
   background-color: rgba(194, 194, 194, 0.966);
+  overflow: auto;
+}
+.containerBtnDisplay * {
+  display: inline;
 }
 .linkID {
   font-size: 10px;
@@ -17,8 +21,4 @@
   color: grey;
   font-size: 10px;
   padding-left: 140px;
-}
-.FavoriteJokeContainer {
-  width: 300px;
-  background-color: hotpink;
 }

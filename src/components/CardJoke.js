@@ -5,32 +5,33 @@ const { baseURL } = consts;
 const CardJoke = ({
   joke,
   dispatch,
-  selectedCategorie,
+  stateSelectedRadio,
+  styleBtnCardFavorite,
+  btnFavoriteJokeClicked,
+  CardJokeDiv,
   favoritesJokes = [],
 }) => {
   const { id, value, updated_at } = joke;
-  // when you need to show favorite by heart check if joke in favorites massive
   const isFavourite = !!favoritesJokes.find((favoritesJoke) => {
-    return favoritesJoke.id === joke.id;
+    return favoritesJoke.id === id;
   });
   function filterAddOrDeleteJoke(isFavourite) {
     if (isFavourite) {
-      console.log("isFavorite :", isFavourite);
       dispatch({
         type: "deleteFavoriteJoke",
         payload: joke,
       });
     } else {
-      console.log("isFavorite :", isFavourite);
       dispatch({
         type: "addFavoriteJoke",
         payload: joke,
       });
     }
   }
+  if (joke.id === undefined) return null;
   return (
     <div className={style.container}>
-      <div className={style.message}>
+      <div className={CardJokeDiv}>
         <div className={style.iconDiv}>
           <div className={style.containerIconMessage}>
             <img
@@ -46,7 +47,7 @@ const CardJoke = ({
               ID:<a href={(baseURL, id)}>{id}</a>
             </span>
             <button
-              className={style.btnFavoriteJoke}
+              className={btnFavoriteJokeClicked}
               onClick={() => {
                 filterAddOrDeleteJoke(isFavourite);
               }}
@@ -57,8 +58,12 @@ const CardJoke = ({
           <p>{value}</p>
           <p className={style.dataOfMessage}>last update: {updated_at}</p>
 
-          {selectedCategorie !== "random" && selectedCategorie !== "search" ? (
-            <button className={style.btnCategorie}>{selectedCategorie}</button>
+          {stateSelectedRadio !== "random" &&
+          stateSelectedRadio !== "search" &&
+          stateSelectedRadio !== "categories" ? (
+            <button className={styleBtnCardFavorite}>
+              {stateSelectedRadio}
+            </button>
           ) : null}
         </div>
       </div>

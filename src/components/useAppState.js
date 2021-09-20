@@ -24,8 +24,6 @@ const initialState = {
 const useJoke = () => {
   function getJokes(queryString, typeReducer, { target }) {
     const query = typeReducer !== "setRandomJoke" ? target.value : "";
-    //IDEA currentJokes, showingJokes state where will be all types of jokes(
-    //random, byCategorie, bySearch)
     fetch(`${BASE_URL}${queryString}${query}`)
       .then((data) => data.json())
       .then((joke) => {
@@ -55,8 +53,6 @@ const useJoke = () => {
   }, []);
 
   const reducerFunction = (state, action) => {
-    // case 'delete-favorite':
-    //ad some logic
     switch (action.type) {
       case DELETE_FAVORITE_JOKE:
         const newFavoriteJokes = state.favoriteJokes.filter(

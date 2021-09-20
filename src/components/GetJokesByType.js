@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import style from "./css/GetJokesByType.module.css";
+import style from "./css/SelectTypeJokes.module.css";
 import ListFavoriteJoke from "./ListFavoriteJoke";
 import CardJoke from "./CardJoke";
 import useJoke from "./useAppState";
-import consts from "./consts";
-const { state, getJokes, dispatch, currentJoke } = useJoke;
-const { SEARCH_JOKES } = consts;
-const GetJokesByType = () => {
+import useConstsTypeJokes from "./consts";
+import styleCardJoke from "./css/CardJoke.module.css";
+const { SEARCH_JOKES } = useConstsTypeJokes;
+const SelectTypeJokes = () => {
+  const jokeLogik = useJoke();
+  const { dispatch, currentJoke, state, getJokes } = jokeLogik;
   const [stateSelectedRadio, setStateSelectedRadio] = useState("");
-  const [parametersGetJokes, setParametersGetJokes] = useState({});
+  const [parametersGetJokesFun, setParametersGetJokesFun] = useState({});
   return (
     <div>
       <header>
-        <h3>MSI 2020</h3>
+        <h3 className={style.marginLeft}>MSI 2020</h3>
       </header>
       <div className={style.main}>
         <h2>Hey!</h2>
@@ -26,7 +28,7 @@ const GetJokesByType = () => {
                 id={style.random}
                 onChange={() => {
                   setStateSelectedRadio("random");
-                  setParametersGetJokes({
+                  setParametersGetJokesFun({
                     link: "random",
                     typeCase: "setRandomJoke",
                     value: "",
@@ -36,21 +38,20 @@ const GetJokesByType = () => {
               random
             </label>
             <p></p>
-            <label htmlFor="fromCategories">
+            <label htmlFor={style.fromCategories}>
               <input
                 name="down"
                 type="radio"
-                id="fromCategories"
+                id={style.fromCategories}
                 onChange={() => {
                   setStateSelectedRadio("categories");
                 }}
               />
               From categories
             </label>
-
             {stateSelectedRadio === "categories" ? (
               <div>
-                {state.categories.map((categorie) => {
+                {jokeLogik.state.categories.map((categorie) => {
                   return (
                     <button
                       className={style.btnСategories}
@@ -59,7 +60,7 @@ const GetJokesByType = () => {
                       onClick={(event) => {
                         event.preventDefault();
                         setStateSelectedRadio(categorie);
-                        setParametersGetJokes({
+                        setParametersGetJokesFun({
                           link: "random?category=",
                           typeCase: "setjokeByCategorie",
                           value: event,
@@ -91,7 +92,7 @@ const GetJokesByType = () => {
                   type="text"
                   placeholder="Free text search..."
                   onChange={(event) => {
-                    setParametersGetJokes({
+                    setParametersGetJokesFun({
                       link: "search?query=",
                       typeCase: "setSearchJoke",
                       value: event,
@@ -106,11 +107,12 @@ const GetJokesByType = () => {
       </div>
       <p>
         <button
+          className={style.marginLeft}
           onClick={() => {
             getJokes(
-              parametersGetJokes.link,
-              parametersGetJokes.typeCase,
-              parametersGetJokes.value
+              parametersGetJokesFun.link,
+              parametersGetJokesFun.typeCase,
+              parametersGetJokesFun.value
             );
           }}
         >
@@ -121,8 +123,11 @@ const GetJokesByType = () => {
         state.searchJokes.map((searchJoke) => {
           return (
             <CardJoke
+              CardJokeDiv={styleCardJoke.cardJoke}
+              btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJoke}
+              styleBtnCardFavorite={styleCardJoke.btnCategorie}
+              stateSelectedRadio={stateSelectedRadio}
               favoritesJokes={state.favoriteJokes}
-              selectedCategorie={stateSelectedRadio}
               joke={searchJoke}
               dispatch={dispatch}
             ></CardJoke>
@@ -130,17 +135,24 @@ const GetJokesByType = () => {
         })
       ) : (
         <CardJoke
+          CardJokeDiv={styleCardJoke.cardJoke}
+          btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJoke}
+          styleBtnCardFavorite={styleCardJoke.btnCategorie}
+          stateSelectedRadio={stateSelectedRadio}
           favoritesJokes={state.favoriteJokes}
-          selectedCategorie={stateSelectedRadio}
           joke={currentJoke}
           dispatch={dispatch}
         ></CardJoke>
       )}
       <ListFavoriteJoke
+        CardJokeDiv={styleCardJoke.cardJokeShadow}
+        btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJokeClicked}
+        styleBtnCardFavorite={styleCardJoke.btnCategorieHidden}
+        stateSelectedRadio={stateSelectedRadio}
         favoritesJokes={state.favoriteJokes}
         dispatch={dispatch}
       />
     </div>
   );
 };
-export default GetJokesByType;
+export default SelectTypeJokes;
