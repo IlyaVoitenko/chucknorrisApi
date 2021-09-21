@@ -88,7 +88,8 @@ const useJoke = () => {
           typeOfJoke: SEARCH_JOKES,
         };
       default:
-        throw "Bad action type";
+        const error = "Bad action type";
+        throw error;
     }
   };
   const [state, dispatch] = useReducer(reducerFunction, initialState);

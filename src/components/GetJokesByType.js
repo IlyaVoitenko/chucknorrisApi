@@ -124,7 +124,6 @@ const SelectTypeJokes = () => {
           return (
             <CardJoke
               CardJokeDiv={styleCardJoke.cardJoke}
-              btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJoke}
               styleBtnCardFavorite={styleCardJoke.btnCategorie}
               stateSelectedRadio={stateSelectedRadio}
               favoritesJokes={state.favoriteJokes}
@@ -136,7 +135,6 @@ const SelectTypeJokes = () => {
       ) : (
         <CardJoke
           CardJokeDiv={styleCardJoke.cardJoke}
-          btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJoke}
           styleBtnCardFavorite={styleCardJoke.btnCategorie}
           stateSelectedRadio={stateSelectedRadio}
           favoritesJokes={state.favoriteJokes}
@@ -146,7 +144,6 @@ const SelectTypeJokes = () => {
       )}
       <ListFavoriteJoke
         CardJokeDiv={styleCardJoke.cardJokeShadow}
-        btnFavoriteJokeClicked={styleCardJoke.btnFavoriteJokeClicked}
         styleBtnCardFavorite={styleCardJoke.btnCategorieHidden}
         stateSelectedRadio={stateSelectedRadio}
         favoritesJokes={state.favoriteJokes}

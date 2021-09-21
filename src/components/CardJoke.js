@@ -7,7 +7,6 @@ const CardJoke = ({
   dispatch,
   stateSelectedRadio,
   styleBtnCardFavorite,
-  btnFavoriteJokeClicked,
   CardJokeDiv,
   favoritesJokes = [],
 }) => {
@@ -47,7 +46,12 @@ const CardJoke = ({
               ID:<a href={(baseURL, id)}>{id}</a>
             </span>
             <button
-              className={btnFavoriteJokeClicked}
+              id="btnFavoriteJoke"
+              className={
+                isFavourite
+                  ? style.btnFavoriteJokeClicked
+                  : style.btnFavoriteJoke
+              }
               onClick={() => {
                 filterAddOrDeleteJoke(isFavourite);
               }}
